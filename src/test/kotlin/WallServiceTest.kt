@@ -21,7 +21,13 @@ class WallServiceTest {
             canPin = true,
             canDelete = true,
             canEdit = true,
-            markedAsAds = false
+            markedAsAds = false,
+            likes = Likes(
+                count = 10,
+                userLikes = true,
+                canLike = true,
+                canPublish = true
+            )
         )
 
         // Добавляем пост
@@ -49,7 +55,13 @@ class WallServiceTest {
             canPin = true,
             canDelete = true,
             canEdit = true,
-            markedAsAds = false
+            markedAsAds = false,
+            likes = Likes(
+                count = 20,
+                userLikes = true,
+                canLike = true,
+                canPublish = true
+            )
         )
         wallService.add(post)
 
@@ -80,7 +92,13 @@ class WallServiceTest {
             canPin = true,
             canDelete = true,
             canEdit = true,
-            markedAsAds = false
+            markedAsAds = false,
+            likes = Likes(
+                count = 30,
+                userLikes = true,
+                canLike = true,
+                canPublish = true
+            )
         )
 
         // Пытаемся обновить несуществующий пост

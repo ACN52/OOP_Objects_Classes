@@ -10,7 +10,8 @@ data class Post(
     val canPin:Boolean, // может ли текущий пользователь закрепить запись (1 — может, 0 — не может).
     val canDelete: Boolean,  // может ли текущий пользователь удалить запись (1 — может, 0 — не может).
     val canEdit: Boolean,   // может ли текущий пользователь редактировать запись (1 — может, 0 — не может).
-    val markedAsAds: Boolean // содержит ли запись отметку «реклама» (1 — да, 0 — нет).
+    val markedAsAds: Boolean, // содержит ли запись отметку «реклама» (1 — да, 0 — нет).
+    val likes: Likes
 )
 
 /*
@@ -22,7 +23,11 @@ user_likes* (integer) — наличие отметки «Мне нравитс�
 can_like* (integer) — информация о том, может ли текущий пользователь поставить отметку «Мне нравится» (1 — может, 0 — не может);
 can_publish* (integer) — информация о том, может ли текущий пользователь сделать репост записи (1 — может, 0 — не может).
 */
-class Likes (var count: Int, val user_likes: Boolean, val can_like: Boolean, val can_publish: Boolean) {
+data class Likes (
+    var count: Int,
+    val userLikes: Boolean,
+    val canLike: Boolean,
+    val canPublish: Boolean) {
 }
 
 // ---------------------
@@ -45,7 +50,7 @@ class WallService {
         for ((index, existingPost) in posts.withIndex()) {
             if (existingPost.id == post.id) {
                 // Обновляем пост
-                posts[index] = post
+                posts[index] = post.copy()
                 return true
             }
         }
@@ -60,6 +65,9 @@ fun main() {
     // Создаем объект WallService
     val wallService = WallService()
 
+    // Создаем объект Likes
+    val likes = Likes(10, true, true, true)
+
     // Создаем несколько постов
     val post1 = Post(
         id = 555,
@@ -69,7 +77,13 @@ fun main() {
         canPin = true,
         canDelete = true,
         canEdit = true,
-        markedAsAds = false
+        markedAsAds = false,
+        likes = Likes(
+            count = 10,
+            userLikes = true,
+            canLike = true,
+            canPublish = true
+        )
     )
 
     val post2 = Post(
@@ -80,7 +94,13 @@ fun main() {
         canPin = false,
         canDelete = true,
         canEdit = false,
-        markedAsAds = true
+        markedAsAds = true,
+        likes = Likes(
+            count = 20,
+            userLikes = true,
+            canLike = true,
+            canPublish = true
+        )
     )
 
     // Добавляем посты в WallService
